@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyShop - My Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">MyShop</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="#" id="logout-link">Logout</a>
+                <a href="cart.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-container">
+                <!-- Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <h2 id="profile-name">John Doe</h2>
+                    <ul class="profile-menu">
+                        <li><a href="profile.html" class="active">Dashboard</a></li>
+                        <li><a href="profile-orders.html">My Orders</a></li>
+                        <li><a href="profile-settings.html">Account Settings</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="profile-content">
+                    <h1>Welcome back, <span id="welcome-name">John</span>!</h1>
+                    <p>Email: <span id="profile-email">john@example.com</span></p>
+                    
+                    <div class="order-history">
+                        <h2>Recent Orders</h2>
+                        <div id="recent-orders">
+                            <!-- Orders will be loaded via JavaScript -->
+                            <p>You haven't placed any orders yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 MyShop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Load profile data
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Display user info
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('welcome-name').textContent = user.name.split(' ')[0];
+            document.getElementById('profile-email').textContent = user.email;
+            
+            // Create avatar initials
+            const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('profile-avatar').textContent = initials;
+            
+            // Logout functionality
+            document.getElementById('logout-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
